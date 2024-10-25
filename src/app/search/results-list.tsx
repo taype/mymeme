@@ -3,6 +3,8 @@
 import { IKImage } from "imagekitio-next";
 import { FileObject } from "imagekit/dist/libs/interfaces";
 import { urlEndpoint } from "../providers";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
   Card,
   CardContent,
@@ -14,13 +16,12 @@ import {
 
 export function ResultsList({ files }: { files: FileObject[] }) {
   return (
-    <div className="grid grid-cols-4 gap-4 mt-2">
+    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 gap-4 mt-2">
       {Array.isArray(files) &&
         files.map((file) => (
           <Card key={file.fileId}>
             <CardHeader>
-              <CardTitle>Card Title</CardTitle>
-              <CardDescription>Card Description</CardDescription>
+              <CardTitle>{file.customMetadata?.displayname ?? file.name}</CardTitle>
             </CardHeader>
             <CardContent>
               <IKImage
@@ -33,7 +34,9 @@ export function ResultsList({ files }: { files: FileObject[] }) {
               />
             </CardContent>
             <CardFooter>
-              <p>Card Footer</p>
+              <Button asChild>
+                <Link href={`/customize/${file.fileId}`}>Customize</Link>
+              </Button>
             </CardFooter>
           </Card>
         ))}
